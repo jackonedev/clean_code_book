@@ -1,7 +1,5 @@
 # Descriptors pag-235.pdf Data Descriptors
-from package import *
-from package.logger import buildLogger
-import logging
+from package.logger import *
 
 logger, msg = buildLogger('descriptors_3')
 
@@ -22,7 +20,7 @@ class ClientClass:
 
 def main():
     client = ClientClass()
-    client.descriptor = 43
+    client.descriptor
     print (client.descriptor)
 
 
