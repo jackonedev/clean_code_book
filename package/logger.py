@@ -45,12 +45,15 @@ def x(*, FILE_NAME):
         block = False
         return '1'
 
-
-def main():
-    FILE_NAME = 'Test_3'
+def buildLogger(FILE_NAME):
     logger = Logger(FILE_NAME)  
     logger = logger.logginConfig()
     msg = Msg(FILE_NAME)
+    return logger, msg
+
+
+def main():
+    logger, msg = buildLogger('Test_4')
     logger.info(msg.set(msg='Haciendo prueba 1'))
     logger.info(msg.set(msg='Haciendo prueba 2'))
     logger.info(msg.set(msg='Haciendo prueba 3'))
