@@ -10,7 +10,7 @@ class Logger:
         self.file_path = self.path + FILE_NAME
 
     def logginConfig(self):
-        formatter = '%(levelname)s:\n %(message)s \n%(asctime)s| line %(lineno)d\n'
+        formatter = '%(levelname)s:\n\t%(message)s\n%(asctime)s| line %(lineno)d\n'
         logging.basicConfig(filename=f'{self.file_path}.log', level=logging.INFO, force=True, filemode='w', **{'format':formatter})
         logger = logging.getLogger()
         return logger
@@ -18,32 +18,33 @@ class Logger:
 
 class Msg:
     path = os.getcwd() + '\data\\'
+    block = True
     
     def __init__(self, FILE_NAME):
         self.file_path = self.path + FILE_NAME
+        # self.block = True
 
     def set(self, msg):
-        return "{}) {}".format(x(FILE_NAME=self.file_path), msg)
+        return "{}) {}".format(self.x(), msg)
 
-block = True
-def x(*, FILE_NAME):
-    global block
-    try:
-        if block: 1/0
-        with open(f'{FILE_NAME}.enum', 'r') as file:
-            i = file.read()
-        i = str(int(i) + 1)
-        with open(f'{FILE_NAME}.enum', 'w') as file:
-            file.write(i)
-        return i
-    
-    except:
-        with open(f'{FILE_NAME}.enum', 'a') as file:
-            pass
-        with open(f'{FILE_NAME}.enum', 'w') as file:
-            file.write('1')
-        block = False
-        return '1'
+    def x(self):
+        try:
+            if self.block: 1/0
+            with open(f'{self.file_path}.enum', 'r') as file:
+                i = file.read()
+            i = str(int(i) + 1)
+            with open(f'{self.file_path}.enum', 'w') as file:
+                file.write(i)
+            return i
+        
+        except:
+            with open(f'{self.file_path}.enum', 'a') as file:
+                pass
+            with open(f'{self.file_path}.enum', 'w') as file:
+                file.write('1')
+            self.block = False
+            return '1'
+
 
 def buildLogger(FILE_NAME):
     logger = Logger(FILE_NAME)  
@@ -53,11 +54,15 @@ def buildLogger(FILE_NAME):
 
 
 def main():
-    logger, msg = buildLogger('Test_4')
+    logger, msg = buildLogger('Test_5')
     logger.info(msg.set(msg='Haciendo prueba 1'))
     logger.info(msg.set(msg='Haciendo prueba 2'))
     logger.info(msg.set(msg='Haciendo prueba 3'))
+    logger.info(msg.set(msg='Haciendo prueba 4'))
 
+    obj = 'PRUEBA'
+    value = 'ejemplo'
+    logger.info(msg.set(f"setting {obj}.descriptor to {value}"))
 
 if __name__ == '__main__':
     main()
