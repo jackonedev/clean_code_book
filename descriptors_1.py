@@ -1,5 +1,5 @@
 # Descriptors pag-227.pdf  __set__
-
+# https://docs.python.org/3/library/typing.html
 from typing import Callable, Any
 
 
