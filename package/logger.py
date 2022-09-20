@@ -55,10 +55,10 @@ def buildLogger(FILE_NAME):
 
 def main():
     logger, msg = buildLogger('Test_5')
-    logger.info(msg.set(msg='Haciendo prueba 1'))
-    logger.info(msg.set(msg='Haciendo prueba 2'))
-    logger.info(msg.set(msg='Haciendo prueba 3'))
-    logger.info(msg.set(msg='Haciendo prueba 4'))
+    logger.info(msg.set('Haciendo prueba 1'))
+    logger.warning(msg.set('Haciendo prueba 2'))
+    logger.error(msg.set('Haciendo prueba 3'))
+    logger.critical(msg.set('Haciendo prueba 4'))
 
     obj = 'PRUEBA'
     value = 'ejemplo'
