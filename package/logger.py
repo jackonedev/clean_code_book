@@ -10,7 +10,7 @@ class Logger:
         self.file_path = self.path + FILE_NAME
 
     def logginConfig(self):
-        formatter = '%(levelname)s:\n\t%(message)s\n%(asctime)s| line %(lineno)d\n'
+        formatter = '%(levelname)s:\n\t%(message)s\n%(asctime)s | line %(lineno)d\n'
         logging.basicConfig(filename=f'{self.file_path}.log', level=logging.INFO, force=True, filemode='w', **{'format':formatter})
         logger = logging.getLogger()
         return logger
@@ -18,11 +18,10 @@ class Logger:
 
 class Msg:
     path = os.getcwd() + '\data\\'
-    block = True
     
     def __init__(self, FILE_NAME):
         self.file_path = self.path + FILE_NAME
-        # self.block = True
+        self.block = True
 
     def set(self, msg):
         return "{}) {}".format(self.x(), msg)
