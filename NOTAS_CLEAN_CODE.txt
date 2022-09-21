@@ -553,6 +553,40 @@ OBTENIENDO MAS DE NUESTROS OBJETOS CON DESCRIPTORES
 >
 pag 220
 
+>>
+pag 243
+Diferentes forma de usar descriptores
+Los datos del descriptor se comparten entre todas las instancias de clase. 
+
+"""
+Always store and return the data from the __dict__ attribute of
+the instance. 
+"""
+
+
+>
+pag 245
+Usando referencias débiles
+mapping
+
+<.py>
+from weakref import WeakKeyDictionary
+<>
+
+__hash__ __eq__ ?
+
+
+>>
+pag 247
+"""
+In general, descriptors will contain implementation logic, and not
+so much business logic.
+"""
+
+
+>
+https://stackoverflow.com/questions/4075190/what-is-getattr-exactly-and-how-do-i-use-it
+
 
 
 
