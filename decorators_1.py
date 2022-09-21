@@ -43,11 +43,12 @@ class LoginEvent:
 # getattr: https://stackoverflow.com/questions/4075190/what-is-getattr-exactly-and-how-do-i-use-it
 from dataclasses import dataclass
 from package.logger import buildLogger
-logger, msg = buildLogger('decorator_1')
+
+logger, msg = buildLogger("decorator_1")
 
 
 def hide_field(field) -> str:
-    logger.info(msg.set('Funcion: hide_field'))
+    logger.info(msg.set("Funcion: hide_field"))
     return "**redacted**"
 
 
@@ -81,6 +82,7 @@ class Serialization:
 
     def __call__(self, event_class):
         logger.info(msg.set("Serialization.__call__()"))
+
         def serialize_method(event_instance):
             logger.info(msg.set("Serialization.__call__().serialize_method()"))
             return self.serializer.serialize(event_instance)
@@ -104,23 +106,18 @@ class LoginEvent:
     timestamp: datetime
 
 
-
-
-
 def main():
     from datetime import datetime as dt
     from pprint import pprint
     from package.explore_object import check_dir, check_vars
-    
+
     # print (format_time(dt.now()))
-    evento_1 = LoginEvent('agustin', 'admin123', '4347190283179', dt.now())
+    evento_1 = LoginEvent("agustin", "admin123", "4347190283179", dt.now())
     # pprint(dir(evento_1))
     check_vars(evento_1)
     # check_dir(evento_1)
     # print (evento_1)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()
-
-
