@@ -54,6 +54,16 @@ class Msg:
 
 
 def buildLogger(FILE_NAME):
+    """Funcionamiento buildLogger
+
+    Keyword arguments:
+    FILE_NAME:str -- Usa ese nombre para crear FILE_NAME.log y FILE_NAME.enum en la carpeta data del directorio. Si no existe, la crea.
+    Return: logger, msg: tuple -- Ambos son instancias de clases, el modo de funcionamiento es el siguiente:
+        logger.info(msg.set("Logger information"))
+
+        logger.info(msg.set("var = {}".format(var)))
+    """
+
     logger = Logger(FILE_NAME)
     logger = logger.logginConfig()
     msg = Msg(FILE_NAME)
