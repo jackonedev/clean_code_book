@@ -1,0 +1,649 @@
+Notas CleanCode:
+
+
+------
+CAPITULO 2
+------
+
+>
+pag 53:
+Iteraciones:
+
+intervalo = slice(1,7,2)
+lista_valores = data[intervalo]
+
+
+>
+pag 53:
+Objeto: "iterable" o "secuencia", es una clase que contiene metodos __getitem__ y __len__ (__iter__ y __next__).
+Si uno quiere crear una clase que sea considerada un iterable, dicha clase debe heredar propiedades desde "colections.abc" particularmente la clase "Secuence" (ver ejemplo).
+
+
+>
+pag 56:
+Gestion de Contextos: abrir archivo, en vez de usar try: finally: 
+
+ejemplo built-in:
+with open(filename) as fd:
+	process_file(fd)
+
+
+>
+
+Quiero probar:
+
+def condition(a):
+	pass
+
+check = True
+with condition(data):
+	process_data(data)
+	check = False
+
+if check:
+	print ("Error: {}".format("check logfile"))
+	sys.exit(0)
+
+
+>>>>
+pag 57
+Create ContextManager: De esta forma, en vez de colocar condiciones lógicas luego del "with", podemos crear funciones. Y cuando se ejecuta el __exit__ también podemos ejecutar funciones.
+
+(ver ejemplo)
+
+
+>>>>
+pag60
+Aplicando decoradores al context manager.
+
+(ver ejemplo)
+
+
+>
+pag 61
+Expresiones Comprensivas o expresiones asignadas:
+{
+return: hace esto
+for: para estos
+if: si estos ...
+}
+
+
+>>>
+pag 63
+Ejemplo de set comprensivo en el return de una funcion
+
+(ver ejemplo)
+
+
+--
+
+
+>>>
+pag 68
+Propiedades: uso de decoradores
+
+(ver ejemplo)
+
+
+>
+pag 70
+Dataclasses: check arjan code youtube channel
+
+
+>
+pag 73
+objetos iterables
+
+
+>
+pag 74
+Ejemplo iterable sobre un timedelta
+
+
+>>>>
+pag 77
+Creacion de secuencias: crear una clase con metodos __getitem__ y __len__
+
+(chequear ejemplo - muy recomendado)
+
+
+>
+pag 79
+Objetos contenedores?
+
+
+>>>
+pag 81
+atributos dinamicos: myobjeto.myattribute y almacena el return de una funcion
+
+
+<>>
+pag 82
+Callable object: crea una clase que funciona como un contador interno
+
+ver canal de youtube de arjan code
+
+
+>
+pag 84
+SUMMARY OF MAGIC METHODS
+
+
+>
+pag 88:
+Python Caveats: Tener muy en cuenta la librería collections antes de empezar a hacer herencias de clases
+
+
+>
+pag 89
+Una Breve Introduccion a la programación asíncrona: libreria async
+
+
+-----
+CAPITULO 3
+-----
+
+>
+pag 94
+
+
+>
+pag 117
+KIS: Keep It Simple: Formas de instanciar un objeto, metodo "setattr". En este ejemplo aplicar el decorador @classmethod ? hace más difícil el código
+
+(ver ejemplo)
+
+
+>
+pag 120
+Herencia en Python:
+
+
+>>>
+pag 123
+Problemas de Implementacion: mezclar "objetos de implementación" con "objetos de dominio".
+- objetos de implementación: Diccionario. Estructura de datos. Ajustable a ciertas operaciones.
+- objetos de dominio: es una entidad destinada a resolver un problema en particular.
+
+(ver ejemplo)
+
+
+>
+pag 126
+MRO
+
+
+>
+pag 127
+Mixins
+
+
+>>>
+pag 128
+Argumentos de funciones en Python
+
+
+>>
+pag 131
+Usando el *tuple
+
+>>
+pag 134
+Usando el **dict: cuando hacemo def f(arg=KEY, **kwargs), ocurre que si el diccionario que ingresamos tiene la key "KEY" el argumento arg obtiene el value de KEY y el resto de los key's van a **kwargs. ?
+
+
+>>
+pag 135
+Parámetros posicionales ONLY: agregando "/" al final de la definicion de parámetros, los hace posicionales obligatoriamente, o sea, def f(x, y, /), si hace el call f(x=1, y=2), da error porque la / hace que se deba llamar como f(1, 2) obligatoriamente
+
+
+> 
+pag 136
+Parametros keyword-ONLY: cuando se ingresa un parametro antecedido por "*" (o simplemente *), todos los parámetros definidos luego, seran keyword only
+Cuando estamos trabajando con funciones que tienen muchas llamadas, y de pronto modificamos la funcion par que tenga un tratamiento especial cuando se le ingresa una nueva variable, es conveniente usar este recurso para conseguir dejar de forma explicita las veces que esta funcion es llamada con ese parámetro en particular (las demas de las veces sera con parámetro por default)
+
+
+>>
+pag 140
+Funciones Notas: Respecto a como definir los parametros de las funciones, dice que las definiciones por *args o **kwargs, sirven para funciones que son "wrappers" de otras. ? 
+
+
+>
+pag 142
+
+(ver ejemplo)
+
+
+>
+pag 143
+Estructurando el Codigo: creacion de package's (__init__.py)
+
+module: __all__
+
+
+
+-----
+CAPITULO 4
+-----
+PRINCIPIOS SOLID
+
+>
+pag 146
+
+
+>
+pag 147
+S: El principio de responsabilidad unica
+
+
+>
+pag 150
+O: El principio Open/Close
+
+
+>>>
+pag 155
+Notas: Una clase es iterable sobre sus hijos, haciendo "object.__subclasses__()"
+Crea una clase "Event" que recibe 1 atributo en su instanciación, y tiene un metodo estático. Luego se crean 3 subclases y solo 2 de ellas vuelven a definir el mismo método estático, a su favor. 
+Por ultimo crea una última clase, ésta tiene un método que itera a través de "Event" todas las subclases creadas, y en cada iteración ejecuta el método estático, siendo por default para una de ellas, y personalizado para las otras dos. 
+
+(ver ejemplo)
+@staticmethod
+Event.__subclasses__()
+
+
+>>
+pag 158
+L: El principio de substitución de Liskov
+Usando mypy, pylint
+
+
+>>
+pag 163
+Cambiando de ejemplo, vemos en funcionamiento el diseño por contrato.
+
+(ver ejemplo)
+from collections.abc import Mapping
+@staticmethod
+
+if not isinstance(object, Mapping):
+	raise ValueError(f"{ object!r } is not a dict")
+
+
+>>
+pag 164
+Nota ejemplo: usa next(iterable, default), en este caso el iterable es una tupla comprensiva, y el default es el evento desconocido
+
+(ver ejemplo)
+
+
+>
+pag 165
+I: El principio de segregación de interface
+@abstractmethod
+
+
+>>
+pag 168
+ejemplo I:
+
+(ver ejemplo)
+from abc import ABCMeta, abstractmethod
+
+
+>
+pag 170
+D: El principio de inversión de la dependencia
+
+
+>>>
+pag 173
+Dependency Injection
+Uso de libreria: pinject
+
+
+-----
+CAPITULO 5
+-----
+USO DE DECORADORES PARA MEJORAR NUESTRO CODIGO
+
+>
+pag 178
+
+
+>>>
+pag 180
+Nota: El decorador es una función que su primer parámetros es lo que siga inmediatamente después, en este caso una función.
+Sirve para mejorar la legibilidad de forma significativa.
+En el ejemplo de la pag 179 la funcion modifier es el decorador y la funcion original es un objeto "wrapped".
+
+decorator_function(wrapped_function)
+
+(ver ejemplo)
+
+
+>>>
+pag 180
+DECORADORES DE FUNCIONES
+Las funciones son probablemente la representación más simple de lo que es un objeto en Python que puede ser decorado.
+Podemos usar decoradores en funciones para aplicar distintos tipos de lógicas a las funciones.
+Podemos:
+	- validar parámetros
+	- chequear requerimientos previos
+	- cambiar el comportamiento totalmente
+	- modificar la firma
+	- chachear resultados: crear una version "memoized" de la función original
+	- y más
+
+
+ejemplo básico
+implementación de mechanismo retry con decoradores
+controlando un domain-level exception en particular y reintentando una cierta cantidad de veces.
+
+<>
+class ControlledException(Exception):
+	"""Un programa de generación de excepciones en domain's """
+	
+def retry(operation):
+	@wraps(operation)
+	def wrapped(*args, **kwargs):
+		last_raised = None
+		RETRIES_LIMIT = 3
+		for _ in range(RETRIES_LIMIT):
+			try:
+				return operation(*args, **kwargs)
+			except ControlledException as e:
+				logger.info("retying %s", operation.__qualname__)
+				last_raised = e
+		raise last_raised
+	return wrapped
+<>
+
+Cuando usamos "_" en el for, es porque no nos interesa la variable hacer uso de la variable "_"
+
+<>
+@retry
+def run_operation(task):
+	"""Run a particular task, simulating some failures on its execution"""
+	return task.run()
+<>
+
+Al hacer esto estamos ejectuando retry(run_operation)
+
+
+>
+pag 182
+DECORADORES PARA CLASSES
+Practicamente todo puede ser considerado un objeto en Python, por lo que las propiedades de los decoradores para las funciones aplica igual para las clases.
+La principal consideración a tener en cuenta es que cuando usamos decoradores en clases, estamos ingresando como primer parámetro del decorador, una clase en vez de una función.
+En el capitulo 2 vimos dataclasses.dataclass.
+Tiene 3 beneficios puntuales el uso de decoradores.
+
+>>
+pag 183
+Volviendo al ejemplo del sistema de monitorización de eventos.
+
+(1er ejemplo - muy recomendado: está mal implementado)
+@dataclass
+
+(2do ejemplo): 
+<>nota: el diccionario **transformations
+serialization_field:dict= {'label':function}
+result = {}
+for field, transformation in serializarion_fields.items():
+	result[field] = transformation(getattr(event, field))
+
+
+>
+pag 186
+Insertando parámetros a los decoradores:
+Hacemos esto cuando:
+- definimos decoradores como funciones "nido": hacemos esto para generar desvios y que todo lo que caiga dentro del decorador se encuentre un nivel de abstracción por debajo
+- Usando classes: implementando un objeto "callable", que aun así actua como decorador
+
+
+>>
+pag 187
+Decoradores con funciones "nido"
+Se usa un decorador que tenga parámetros por default, y uno puede crear funciones wrapped que tengan variantes en la forma en la que se llama al decorador por encima de ellas
+
+
+>>
+pag 189
+Decoradores para objetos
+Almacenan data
+
+
+
+>>
+pag 191
+Uso de decoradores
+
+(ver ejemplo)
+functools.partial
+
+
+>
+pag 197
+Good uses for Decorators
+5 funciones
+
+
+>>
+pag 197
+funcion 1: Adaptar la signature de las funciones
+En el capitulo 7 vamos a ver esto mismo pero aplicado a objetos.
+def: Transformación de parámetros: cambiar la firma de una función para mostrar una mejor API, mientras encapsulamos detalles sobre como son tratados sus parámetros y transformados en el codigo.
+
+<>
+instead of:
+def resolver_function(root, args, context, info):
+	helper = DomainObject(root, args, context, info)
+	...
+	helper.process()
+
+we can:
+@DomainArgs
+def resolver_function(helper):
+	helper.process()
+
+
+>
+pag 199
+funcion 2: Validando parámetros:
+def: Pueden ser útiles para validar los tipos de las variables ingresadas a los parámetros de una forma transparente. Con el uso de decoradores reforzar condiciones previas para nuestras abstracciones, siguiendo las ideas del "diseño por contrato" DbC.
+Como sabemos de DbC, el establecimiento de precondiciones y postcodiciones es una condicion necesaria para el diseño por contrato. En algunos casos nos vemos creando objetos similares o aplicando transformaciones similares que quisieramos abstraernos de ellas. La mayoría de las veces, podemos conseguir esto mediante decoradores.
+
+
+>
+pag 199
+Funcion 3: Tracing code:
+def: Hacer logging de una función con sus parámetros. Son muchas las librerías conocidas para que proveen "tracing capabilities", y agregan funcionalidades como decoradores para que integremos a nuestras funciones. Es agradable que existan estas funciones que no estorban en nuestro código. Y nos permiten de una forma inspiradora, escribir nuestros propios loggings o "tracing functionality as decorators".
+Tracing code se usa especificamente en 4 escenarios:
+	- Rastrear la ejecución de una función (por ejeplo, las líneas de código que ejecuta)
+	- Monitorear algunas métricas de la función (El uso de la huella de memoría de CPU)
+	- Medir el tiempo de ejecución de una función
+	- Hacer un .log cuando la función sea ejecutada y los parámetros que se le fueron asignados.
+
+
+>
+pag 197
+Funcion 4: Implementar operaciones retry
+Funcion 5: Simplificar las classes removiendo partes repetitivas de su logica, dentro de decoradores.
+
+
+>>>
+pag 200
+Preservando data sobre el objecto wrapped original
+__qualname__
+__annotations__
+se preservan con @wraps
+
+(ver ejemplo)
+
+Siempre usar functools.wraps para crear un decorador
+
+
+>
+pag 202
+Lidiando con los efectos secundarios de los decoradores
+Si pusieramos un time.time() en el decorador, arrancaría cuando se importa el módulo, por eso se lo pone dentro de la funcion wrapped
+
+>	
+pag 205
+Requieriendo efectos secundarios en los decoradores
+¿Cuando es conveniente tener ese delay cuando se importa el modulo?
+
+
+>
+pag 207
+Creando decoradores que funcionan siempre
+
+
+>>
+pag 209
+Si creas un decorador para una función, probablemente no funcione en un método de clase porque el paramétro self no lo reconocería el decorador ya creado.
+Como resolver esto se verá en el capitulo 7
+La solucion para crear un decorador que funcione tanto para funciones como para metodos es implementando el __get__
+?
+
+(ver ejemplo)
+
+
+>>>>>>>>>>>>>>>>> pag 210
+Decoradores y código limpio
+>
+Composición sobre herencia
+
+__getattr__: resolve attributes dinamically on objects
+
+
+>
+pag 212
+aplicar "resolver_" al attr
+
+
+>
+pag 213
+El principio DRY con decoradores
+
+
+>>>
+pag 216
+El principio de responsabilidad unica y combinando dos decoradores
+
+(ver ejemplo)
+
+
+>
+pag 216
+Analisis de los buenos decoradores:
+deben cumplir:
+- encapsulacion: debe separar las responsabilidades
+- ortogonalidad: debe ser independiente del objeto que está decorando
+- reusable: puede ser aplicado a distintos tipos, debe usarse en varias ocasiones.
+
+
+-----
+CAPITULO 6
+-----
+OBTENIENDO MAS DE NUESTROS OBJETOS CON DESCRIPTORES
+
+>
+pag 220
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
