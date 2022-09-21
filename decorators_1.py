@@ -110,14 +110,15 @@ class LoginEvent:
 def main():
     from datetime import datetime as dt
     from pprint import pprint
-    from package.explore_object import check_dir
+    from package.explore_object import check_dir, check_vars
     
     # print (format_time(dt.now()))
     evento_1 = LoginEvent('agustin', 'admin123', '4347190283179', dt.now())
     # pprint(dir(evento_1))
-    pprint(vars(evento_1))
+    check_vars(evento_1)
     # check_dir(evento_1)
-    print (evento_1.password)
+    # print (evento_1)
+
 
 if __name__ == '__main__':
     main()
