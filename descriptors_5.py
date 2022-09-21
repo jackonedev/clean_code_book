@@ -4,9 +4,10 @@
 from dataclasses import dataclass
 from datetime import datetime
 from functools import partial
-from package.logger import buildLogger
+# from package.logger import buildLogger
 from package.transformer_descriptor import BaseFieldTransformation
 from package.explore_object import check_vars
+from pprint import pprint
 
 ShowOriginal = partial(BaseFieldTransformation, transformation=lambda x: x)
 HideField = partial(BaseFieldTransformation, transformation=lambda x: "**redacted**")
@@ -31,7 +32,7 @@ def main():
     event_1 = LoginEvent("john", "secreto passwordo", "1.1.1.1", datetime.utcnow())
     check_vars(event_1)
     
-    check_vars(event_1.serialize())
+    pprint(event_1.serialize(), sort_dicts=False)
 
 if __name__ == '__main__':
     main()

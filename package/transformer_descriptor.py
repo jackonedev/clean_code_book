@@ -19,7 +19,3 @@ class BaseFieldTransformation:
 
     def __set__(self, instance, value):
         instance.__dict__[self._name] = value
-
-from package.logger import buildLogger
-
-help(buildLogger)

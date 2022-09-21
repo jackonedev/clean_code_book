@@ -13,5 +13,5 @@ def check_vars(obj):
     from pprint import pprint
 
     print("=" * 90, f"\nPRINTING vars({obj.__class__.__name__}.instance)\n")
-    pprint(vars(obj))
+    pprint(vars(obj), sort_dicts=False)
     print("=" * 90, "\n")
