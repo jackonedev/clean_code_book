@@ -1,24 +1,24 @@
-class SequenceOfNumbers:
+# Iterators and Generators
+# pag-272-.pdf
 
-    def __init__(self, start=0):
-        self.current = start
 
-    def __next__(self):
-        current = self.current
-        self.current += 1
-        return current
+def sequence(start=0):
+    while True:
+        yield start
+        start += 1
 
-    def __iter__(self):
-        return self
 
 def main():
-    print (list(zip(SequenceOfNumbers(), 'abcdef')))
 
-    x = SequenceOfNumbers()
-    for i in range(5):
-        next(x)
-    
-    print (x.current)
+    print(list(zip(sequence(), "abcdef")))
 
-if __name__ == '__main__':
+    x = sequence()
+    print(type(x))
+
+    print(next(x))
+    print(next(x))
+    print(next(x))
+
+
+if __name__ == "__main__":
     main()
