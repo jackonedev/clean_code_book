@@ -1,5 +1,4 @@
 import logging
-import datetime as dt
 import os
 
 
@@ -23,34 +22,22 @@ class Logger:
         return logger
 
 
+def sequence(start=1):
+    while True:
+        yield start
+        start += 1
+
+
 class Msg:
     path = os.getcwd() + "\data\\"
 
     def __init__(self, FILE_NAME):
         self.file_path = self.path + FILE_NAME
         self.block = True
+        self.x = sequence()
 
     def set(self, msg):
-        return "{}) {}".format(self.x(), msg)
-
-    def x(self):
-        try:
-            if self.block:
-                1 / 0
-            with open(f"{self.file_path}.enum", "r") as file:
-                i = file.read()
-            i = str(int(i) + 1)
-            with open(f"{self.file_path}.enum", "w") as file:
-                file.write(i)
-            return i
-
-        except:
-            with open(f"{self.file_path}.enum", "a") as file:
-                pass
-            with open(f"{self.file_path}.enum", "w") as file:
-                file.write("1")
-            self.block = False
-            return "1"
+        return "{}) {}".format(next(self.x), msg)
 
 
 def buildLogger(FILE_NAME):
@@ -71,7 +58,7 @@ def buildLogger(FILE_NAME):
 
 
 def main():
-    logger, msg = buildLogger("Test_5")
+    logger, msg = buildLogger("Test_7")
     logger.info(msg.set("Haciendo prueba 1"))
     logger.warning(msg.set("Haciendo prueba 2"))
     logger.error(msg.set("Haciendo prueba 3"))
