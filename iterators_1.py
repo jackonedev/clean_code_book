@@ -1,23 +1,18 @@
-class NumberSequence:
+class SequenceOfNumbers:
 
     def __init__(self, start=0):
         self.current = start
 
-    def next(self):
+    def __next__(self):
         current = self.current
         self.current += 1
         return current
 
-def main():
-    x = NumberSequence()
+    def __iter__(self):
+        return self
 
-    # print (x.current)
-    print (x.next())
-    print (x.next())
-    print (x.current)
-    print (x.next())
-    print (x.current)
-    # print (x.current)
+def main():
+    print (list(zip(SequenceOfNumbers(), 'abcdef')))
 
 if __name__ == '__main__':
     main()
