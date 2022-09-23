@@ -14,5 +14,11 @@ class SequenceOfNumbers:
 def main():
     print (list(zip(SequenceOfNumbers(), 'abcdef')))
 
+    x = SequenceOfNumbers()
+    for i in range(5):
+        next(x)
+    
+    print (x.current)
+
 if __name__ == '__main__':
     main()
