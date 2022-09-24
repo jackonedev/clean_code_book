@@ -590,25 +590,140 @@ https://stackoverflow.com/questions/4075190/what-is-getattr-exactly-and-how-do-i
 
 
 
+!!!!!
+SE PERDIO TODA LA INFORMACIÓN HASTA LA PAGINA 259
+!!!!!
 
 
+===================
+CAPITULO 7
+===================
+GENERADORES, ITERADORES Y PROGRAMACION ASINCRONA
 
 
+>
+PAG 262
+Aquí aparece el link al repositorio de GitHub
+
+>
+PAG 266: Una primera mirada a iteradores
+En capitulos anteriores vimos como:
+- implementar nuestros propios context managers para conectar nuestros objectos con nuestras statements
+- crear contenedores para potenciar el operador "in"
+- usar booleanos para el statement "if"
+- ...
+
+Ahora veremos el statemos "for" cuando crearemos nuestros iteradores.
 
 
+>>>
+PAG 267: Generator expressions
+es como el list comprehension pero en vez de "[]" usamos "()"
+
+"""
+Always pass a generator expression, instead of a list
+comprehension, to functions that expect iterables, such as min(),
+max(), and sum(). This is more efficient and Pythonic.
+"""
+
+Los generadores se extinguen despues de ser iterados
 
 
+>
+PAG-272 Itertools
+from itertools import islice
+purchase = islice(filter(lambda p: p > 1000.0, purchase), 10)
+stats = PurchaseStats(purchase).process()
 
 
+>>>>
+PAG 273: Simplificando el códio con iteradores
+1. iteraciones repetitivas: pag 274
+"""
+If you are thinking about running a loop over the same object more
+than once, stop and think if itertools.tee can be of any help.
+"""
+2. loops anidados: pag 274
+"""
+Try to simplify the iteration as much as possible with as many
+abstractions as are required, flattening the loops wherever possible.
+"""
+3. El patrón de iteración en Python: pag 276
+Un iterable posee __iter__, un iterador posee __next__
+.
+4. La interface de un iterador: pag 277
+5. objetos tipo sequence como iterables: pag 278
+Python busca el metodo __iter__ pero sino realiza otras acciones. Si tenemos un objeto sequence, que aplica __getitem__() y __len__() - cambia la assertion a IndexError
 
 
+>
+PAG 280: CORUTINAS: bases de programación asíncrona
+
+metodos agregados:
+.close()
+.throw(extype[, ex_value[, ex_traceback])
+.send(value)
 
 
+>>>
+PAG 281: close()
+cuando llamamos este metodo, el generador recive la excepcion GeneratorExit: funciona como context manager
+lo usamos para liberar recursos cuando no es de forma automatizada
+
+"""
+Use the close() method on generators to perform finishing-up
+tasks when needed.
+"""
+
+(ver ejemplo)
 
 
+>>
+PAG 282: throw(ex_type[, ex_value[, ex_traceback]])
+Fuerza la ejecución a pasar por una excepcion
+Este metodo envia una excepcion a la linea donde el generador está actualmente suspendido. Si el generador controla la excepcion, el codigo de la clausula except sera ejecutado, sino se propagara la excepcion.
+
+(ver ejemplo)
+
+>>>>
+PAG 284: send(value)
+En corutinas generalmente encontramos el yield aplicado así:
+receive = yield produce
+primero, hace send(produced) de vuelta al caller que lo levantara en la proxima rueda de iteracion, y lo suspende ahi. Segundo, el caller va a enviar el valor de vuelta a la corutina usando el send(), ese valor se volvera el resultado del yield.
+
+(ver ejemplo)
+
+"""
+Always remember to advance a coroutine by calling next() before
+sending any values to it.
+"""
+
+Para que el código funcione hay que enviarlo al next(). Gracias PYCOOK podemos aplicar un decorador para eso:
+
+@prepare_coroutine
+def ...
+(ver repo libro)
 
 
+>
+pag 287: Corutinas más avanzadas
+Tengamos en cuenta que existe otra forma para hacer esto, pero es necesario aprender esto último para poder entender mejor la sintaxis detras de la programación asíncrona.
 
+yield from PEP 380
+
+A veces hacemos generadores para conservar un estado antes de ejecutar una linea de código, en vez de suspender la ejecución conservando un valor. El desafío es mezclar ambas.
+
+Aplicamos return a un generator
+
+def generator():
+    yield 1
+    yield 2
+    return 3
+
+
+>
+pag 289: Delegando dentro de más pequeñas corutinas. 
+- yield from
 
 
 
