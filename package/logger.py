@@ -1,5 +1,6 @@
 import logging
 import os
+import itertools
 
 
 class Logger:
@@ -22,22 +23,16 @@ class Logger:
         return logger
 
 
-def sequence(start=1):
-    while True:
-        yield start
-        start += 1
-
-
 class Msg:
     path = os.getcwd() + "\data\\"
 
     def __init__(self, FILE_NAME):
         self.file_path = self.path + FILE_NAME
         self.block = True
-        self.x = sequence()
+        self.x = itertools.count()
 
     def set(self, msg):
-        return "{}) {}".format(next(self.x), msg)
+        return "{}) {}".format(next(self.x) + 1, msg)
 
 
 def buildLogger(FILE_NAME):
@@ -58,7 +53,7 @@ def buildLogger(FILE_NAME):
 
 
 def main():
-    logger, msg = buildLogger("Test_7")
+    logger, msg = buildLogger("Test_8")
     logger.info(msg.set("Haciendo prueba 1"))
     logger.warning(msg.set("Haciendo prueba 2"))
     logger.error(msg.set("Haciendo prueba 3"))
